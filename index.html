@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Misi Si Comel di Taman Ceria</title>
+  <style>
+    body {
+      font-family: 'Century Gothic', sans-serif;
+      font-size: 20pt;
+      background-color: #f0fdf4;
+      color: #1b4332;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .story {
+      text-align: justify;
+      margin-top: 20px;
+    }
+    .question {
+      margin-top: 30px;
+    }
+    button.option {
+      background-color: #d8f3dc;
+      border: 1px solid #95d5b2;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18pt;
+    }
+    button.option:hover {
+      background-color: #b7e4c7;
+    }
+    #feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .nav {
+      margin-top: 30px;
+    }
+    .nav button {
+      padding: 8px 15px;
+      margin: 5px;
+      font-size: 18px;
+      border-radius: 8px;
+      background-color: #74c69d;
+      border: none;
+      color: white;
+    }
+    .nav button:hover {
+      background-color: #52b788;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    audio {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="title">Misi Si Comel di Taman Ceria</h1>
+    <div class="story" id="story"></div>
+    <div id="media"></div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div class="nav">
+      <button onclick="prevPage()">Sebelumnya</button>
+      <button onclick="nextPage()">Seterusnya</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      {
+        title: "Muka Hadapan",
+        text: "",
+        image: "cover.png",
+        question: "",
+        options: [],
+        answer: ""
+      },
+      {
+        title: "Muka Surat 1: Selamat Datang, Si Comel!",
+        text: `Pada suatu pagi yang cerah, Si Comel bangun dari tidur.
+Dia menguap sambil meregangkan badan.
+"Meow~ Hari yang indah untuk bermain!" kata Si Comel dengan riang.
+Dia melompat keluar dari rumah kecilnya dan berjalan ke Taman Ceria yang terletak tidak jauh dari situ.
+Di sana, dia akan bertemu dengan rakan-rakan baharunya dan meneroka keindahan alam sekitar.`,
+        image: "halaman1.png",
+        audio: "halaman1.mp3",
+        question: "Apakah warna Si Comel?",
+        options: ["Putih", "Hitam", "Oren"],
+        answer: "Oren"
+      },
+      {
+        title: "Muka Surat 2: Di Taman Ceria",
+        text: `Taman Ceria dipenuhi bunga-bunga yang mekar dan rama-rama yang berterbangan.
+Si Comel menghidu bunga dan berlari mengejar rama-rama dengan gembira.
+Dia mendengar bunyi burung berkicauan dan angin meniup lembut daun-daun pokok.`,
+        image: "halaman2.png",
+        audio: "halaman2.mp3",
+        question: "Apa yang Si Comel kejar di taman?",
+        options: ["Burung", "Rama-rama", "Bola"],
+        answer: "Rama-rama"
+      },
+      {
+        title: "Muka Surat 3: Bertemu Cik Arnab",
+        text: `Tiba-tiba, seekor arnab putih muncul dari belakang pokok.
+"Hai! Nama saya Cik Arnab," kata arnab itu sambil tersenyum.
+Si Comel gembira kerana bertemu kawan baru.
+Mereka bermain kejar-kejar di padang.`,
+        image: "halaman3.png",
+        audio: "halaman3.mp3",
+        question: "Siapa nama kawan baru Si Comel?",
+        options: ["Cik Kura-kura", "Cik Arnab", "Encik Burung"],
+        answer: "Cik Arnab"
+      },
+      {
+        title: "Muka Surat 4: Makanan Kegemaran",
+        text: `Selepas bermain, Si Comel dan Cik Arnab duduk berehat di bawah pokok rendang.
+"Apa makanan kegemaran kamu, Cik Arnab?" tanya Si Comel.
+"Saya suka makan lobak!" jawab Cik Arnab sambil mengunyah lobak yang dibawanya.`,
+        image: "halaman4.png",
+        audio: "halaman4.mp3",
+        question: "Apa makanan kegemaran Cik Arnab?",
+        options: ["Lobak", "Ikan", "Keju"],
+        answer: "Lobak"
+      },
+      {
+        title: "Muka Surat 5: Bunyi di Sekeliling",
+        text: `Tiba-tiba, mereka terdengar bunyi kuat.
+"Apakah itu?" tanya Si Comel.
+"Oh, itu bunyi itik dan ayam di kandang belakang taman," kata Cik Arnab.
+Mereka mendekati dan melihat pelbagai haiwan lain juga.`,
+        image: "halaman5.png",
+        audio: "halaman5.mp3",
+        question: "Bunyi haiwan apa yang mereka dengar?",
+        options: ["Kucing dan Anjing", "Itik dan Ayam", "Gajah dan Harimau"],
+        answer: "Itik dan Ayam"
+      },
+      {
+        title: "Muka Surat 6: Kolam Air",
+        text: `Mereka tiba di sebuah kolam air yang tenang.
+"Jom kita cuba melompat atas batu ini!" kata Si Comel.
+Dia melompat dari satu batu ke satu batu dengan hati-hati supaya tidak jatuh ke dalam air.`,
+        image: "halaman6.png",
+        audio: "halaman6.mp3",
+        question: "Apa yang Si Comel cuba lakukan?",
+        options: ["Melompat atas batu", "Berenang", "Memancing"],
+        answer: "Melompat atas batu"
+      },
+      {
+        title: "Muka Surat 7: Bertemu Kura-kura",
+        text: `Di tepi kolam, seekor kura-kura tua sedang berehat.
+"Hai, saya Encik Kura-kura," katanya perlahan.
+Mereka berbual dan Encik Kura-kura menceritakan kisah tentang taman itu.`,
+        image: "halaman7.png",
+        audio: "halaman7.mp3",
+        question: "Siapa yang mereka jumpa di tepi kolam?",
+        options: ["Cik Arnab", "Encik Kura-kura", "Si Comel"],
+        answer: "Encik Kura-kura"
+      },
+      {
+        title: "Muka Surat 8: Rama-rama Warna-warni",
+        text: `Tiba-tiba, sekumpulan rama-rama berwarna-warni terbang melepasi mereka.
+"Wow! Cantiknya!" kata Si Comel sambil cuba menghitung jumlah rama-rama yang kuning.`,
+        image: "halaman8.png",
+        audio: "halaman8.mp3",
+        question: "Apakah warna rama-rama yang cuba dikira oleh Si Comel?",
+        options: ["Merah", "Kuning", "Biru"],
+        answer: "Kuning"
+      },
+      {
+        title: "Muka Surat 9: Sarang Burung",
+        text: `Di dahan pokok besar, seekor burung sedang membina sarang.
+"Boleh kami tolong?" tanya Cik Arnab.
+Mereka mengutip ranting dan memberikan kepada burung itu.`,
+        image: "halaman9.png",
+        audio: "halaman9.mp3",
+        question: "Apa yang burung sedang bina?",
+        options: ["Sarang", "Sangkar", "Rumah"],
+        answer: "Sarang"
+      },
+      {
+        title: "Muka Surat 10: Lagu Kawan",
+        text: `Mereka duduk di atas rumput dan menyanyi bersama-sama.
+"Mari menari, kita menari, bersama kawan di pagi hari..." nyanyi mereka gembira.`,
+        image: "halaman10.png",
+        audio: "halaman10.mp3",
+        question: "Apa yang mereka buat di atas rumput?",
+        options: ["Menari dan menyanyi", "Tidur", "Makan"],
+        answer: "Menari dan menyanyi"
+      },
+      {
+        title: "Muka Surat 11: Waktu Pulang",
+        text: `Matahari mula terbenam dan hari semakin gelap.
+"Sudah tiba masa untuk pulang," kata Si Comel.
+"Kita akan berjumpa lagi esok!" kata semua sambil melambai.`,
+        image: "halaman11.png",
+        audio: "halaman11.mp3",
+        question: "Kenapa mereka perlu pulang?",
+        options: ["Hari hujan", "Hari semakin gelap", "Mereka lapar"],
+        answer: "Hari semakin gelap"
+      },
+      {
+        title: "Muka Surat 12: Kawan Selamanya",
+        text: `Si Comel pulang ke rumah dengan hati yang gembira.
+Dia telah belajar banyak perkara dan mendapat ramai kawan.
+"Hari ini sangat seronok," kata Si Comel sambil tersenyum dan masuk tidur.`,
+        image: "halaman12.png",
+        audio: "halaman12.mp3",
+        question: "Apa perasaan Si Comel pada akhir cerita?",
+        options: ["Sedih", "Marah", "Gembira"],
+        answer: "Gembira"
+      },
+      {
+        title: "Pengisian AINS",
+        text: `""
+        Sumber Bacaan: Sumber digital<br>
+        Jenis Bacaan: E-buku<br>
+        Kategori Bacaan: Fiksyen<br>
+        Judul Buku: Misi Si Comel di Taman Ceria<br>
+        Penulis & Penterjemah: Team KAAF<br>
+        Bilangan muka surat: 12<br>
+        Tahun terbitan: 2025<br>
+        Bahasa: Bahasa Melayu<br><br>
+        <strong>Rumusan:</strong> Kisah seekor kucing yang belajar tentang persahabatan, alam, dan nilai murni sambil bermain bersama rakan-rakan di taman ceria.<br>
+        <strong>Pengajaran:</strong> Si Comel belajar tentang persahabatan dan tolong-menolong.<br>
+        <strong>Penilaian Kendiri:</strong> ⭐⭐⭐⭐⭐`,
+        image: "",
+        audio: "",
+        question: "",
+        options: [],
+        answer: ""
+      }
+    ];
+
+    let currentPage = 0;
+
+    function renderPage() {
+      const page = pages[currentPage];
+      document.getElementById('title').textContent = page.title === 'Muka Hadapan' ? '' : page.title;
+      document.getElementById('story').innerHTML = `<p>${page.text}</p>`;
+
+      const media = document.getElementById('media');
+      media.innerHTML = page.image ? `<img src="images/${page.image}" alt="Gambar Muka Surat">` : '';
+      if (page.audio && page.title !== 'Muka Hadapan') {
+        media.innerHTML += `
+          <audio controls>
+            <source src="audio/${page.audio}" type="audio/mpeg">
+            Pelayar anda tidak menyokong audio.
+          </audio>`;
+      }
+
+      const optionsDiv = document.getElementById('options');
+      const questionDiv = document.getElementById('question');
+      const feedback = document.getElementById('feedback');
+
+      if (page.question) {
+        questionDiv.textContent = page.question;
+        optionsDiv.innerHTML = '';
+        page.options.forEach(option => {
+          const btn = document.createElement('button');
+          btn.className = 'option';
+          btn.textContent = option;
+          btn.onclick = () => checkAnswer(option);
+          optionsDiv.appendChild(btn);
+        });
+      } else {
+        questionDiv.textContent = '';
+        optionsDiv.innerHTML = '';
+      }
+
+      feedback.textContent = '';
+    }
+
+    function checkAnswer(selected) {
+      const correct = pages[currentPage].answer;
+      const feedback = document.getElementById('feedback');
+      if (selected === correct) {
+        feedback.textContent = 'Betul!';
+        feedback.style.color = 'green';
+      } else {
+        feedback.textContent = 'Cuba lagi!';
+        feedback.style.color = 'red';
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        renderPage();
+      }
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
